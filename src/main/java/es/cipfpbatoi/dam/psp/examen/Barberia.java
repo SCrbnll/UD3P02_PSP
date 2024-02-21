@@ -20,7 +20,6 @@ public class Barberia {
         barberoDurmiendo = lock.newCondition();
         clienteListo = lock.newCondition();
     }
-
     public void agregarClientes(Cliente cliente) {
         lock.lock();
         try {
@@ -39,7 +38,6 @@ public class Barberia {
             lock.unlock();
         }
     }
-
     public void cortarBarba() throws InterruptedException {
         lock.lock();
         try {
@@ -52,7 +50,7 @@ public class Barberia {
             clienteListo.signal();
             System.out.println("El barbero le recorta la barba al cliente " + cliente.getId());
             lock.unlock();
-            Thread.sleep(new Random().nextInt(4000) + 6000);
+            Thread.sleep(new Random().nextInt(1000) + 4000);
             lock.lock();
             asientos.poll();
             System.out.println("El barbero ha terminado el servicio con el cliente " + cliente.getId());
@@ -60,7 +58,6 @@ public class Barberia {
             lock.unlock();
         }
     }
-
     public void abrirBarberia() {
         Thread hiloBarbero = new Thread(new Barbero(this));
         hiloBarbero.start();
